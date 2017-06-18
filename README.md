@@ -21,7 +21,7 @@ Uses a Deep Convolutional Generative Adversial Network to generate images of ros
 The roses dataset was downloaded from google images using the Chrome ImageSpark 
 plugin.
 
-The dataset that I have used can be downloaded from [this](https://drive.google.com/open?id=0B068a_0Gq8kYSGZ3UmdveFczM0U) link.
+The dataset that I have used can be downloaded from this [link](https://drive.google.com/open?id=0B068a_0Gq8kYSGZ3UmdveFczM0U).
 * Extract the images into Dataset/Roses.
 
 ## Training the model
