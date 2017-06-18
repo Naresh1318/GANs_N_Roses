@@ -51,6 +51,7 @@ in the Results/roses/<time_stamp...>/Generated_Images directory.
 * The Discriminator and the Generator loss along with the Discriminator accuracy 
 variations are plotted on Tensorboard which can be seen by running the code below.
     
+    
     tensorboard --logdir="Results/roses/<time_stamp...>/Tensorboard"
 
 ###Examples of generated images after 30000 iterations:
