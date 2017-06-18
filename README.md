@@ -43,7 +43,7 @@ and run the following:
     
 * Each run generates a new directory under Results/roses with the following format:
     
-    <time_stamp>\_<Z_DIM><BATCH_SIZE>\_<N_ITERATIONS>\_<LEARNING_RATE>_<BETA_1>
+    <time_stamp>\_<Z_DIM>\_<BATCH_SIZE>\_<N_ITERATIONS>\_<LEARNING_RATE>_<BETA_1>
 
 * This trains the model displaying the generated images after every 200 iternations
 in the Results/roses/<time_stamp...>/Generated_Images directory. 
@@ -54,14 +54,14 @@ variations are plotted on Tensorboard which can be seen by running the code belo
     
     tensorboard --logdir="Results/roses/<time_stamp...>/Tensorboard"
 
-###Examples of generated images after 30000 iterations:
+### Examples of generated images after 30000 iterations:
 *Example 1*
 
 *Example 2*
 
 *Example 3 gif*
 
-##Credits
+## Credits
 ..
 
 
