@@ -37,7 +37,7 @@ def generator(z, z_dim):
     :param z_dim: The dimension of the input noise.
     :return: Fake images -> [BATCH_SIZE, IMAGE_SIZE, IMAGE_SIZE, 3]
     """
-    gf_dim = 64
+    gf_dim = 64  # TODO: Implement different image size.
     z2 = dense(z, z_dim, gf_dim * 8 * 4 * 4, scope='g_h0_lin')
     h0 = tf.nn.relu(batch_norm(tf.reshape(z2, [-1, 4, 4, gf_dim * 8]),
                                center=True, scale=True, is_training=True, scope='g_bn1'))
