@@ -72,7 +72,7 @@ mission_control.py file.
 
 *Example 3 gif*
 
-![Gif_1](https://raw.githubusercontent.com/Naresh1318/GANs_N_Roses/master/README/gif_1.gif)
+![Gif_1](https://raw.githubusercontent.com/Naresh1318/GANs_N_Roses/master/README/roses.gif)
 
 
 ## Credits
