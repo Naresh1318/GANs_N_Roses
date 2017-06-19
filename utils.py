@@ -33,6 +33,7 @@ def load_dataset(path, data_set='birds', image_size=64):
     """
     if data_set == 'birds':
         image_dirs = os.listdir(path)[0]
+        # TODO: Only read the images in the directory and ignore all other files.
         number_of_images = len(image_dirs)
         images = []
         print("{} images are being loaded...".format(data_set[:-1]))

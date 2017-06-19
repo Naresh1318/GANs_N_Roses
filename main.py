@@ -132,7 +132,7 @@ def train(z_dim, batch_size, learning_rate, beta1, n_iter, image_size):
         writer = tf.summary.FileWriter(logdir=logdir, graph=sess.graph)
         if mc.TRAIN:
             for idx in range(n_iter):
-                batch_images = next_batch(real_img, batch_size=10)
+                batch_images = next_batch(real_img, batch_size=batch_size)
                 batch_z = np.random.uniform(-1, 1, [batch_size, z_dim]).astype(np.float32)
 
                 for k in range(1):
@@ -148,7 +148,7 @@ def train(z_dim, batch_size, learning_rate, beta1, n_iter, image_size):
                     writer.add_summary(summary, global_step=idx)
                     d_loss = d_loss_fake.eval({zin: display_z, images: batch_images})
                     g_loss = gloss.eval({zin: batch_z})
-                    print("\n Discriminator loss: {0} \n Generator loss: {1}".format(d_loss, g_loss))
+                    print("\n Discriminator loss: {0} \n Generator loss: {1} \n".format(d_loss, g_loss))
 
                 if idx % 200 == 0:
                     # Save the generated images every 200 iterations
