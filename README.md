@@ -63,11 +63,14 @@ The example images were generated using the default hyperparameters present in t
 mission_control.py file.
 
 *Example 1*
-![Example_1]()
+![Example_1](https://raw.githubusercontent.com/Naresh1318/GANs_N_Roses/master/README/example_1.jpg)
 
 *Example 2*
+![Example_2](https://raw.githubusercontent.com/Naresh1318/GANs_N_Roses/master/README/example_2.jpg)
 
 *Example 3 gif*
+![Gif_1](https://raw.githubusercontent.com/Naresh1318/GANs_N_Roses/master/README/gif_1.gif)
+
 
 ## Credits
 ..
