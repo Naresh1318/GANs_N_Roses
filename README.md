@@ -70,15 +70,11 @@ mission_control.py file.
 
 ![Example_2](https://raw.githubusercontent.com/Naresh1318/GANs_N_Roses/master/README/example_2.jpg)
 
-*Example 3 gif*
+*GANs N' Roses Training*
 
 ![Gif_1](https://raw.githubusercontent.com/Naresh1318/GANs_N_Roses/master/README/roses.gif)
 
-
-## Credits
-..
-
-
-    
+## Thank You
+   If you find this repository helpful please share it and feel free to suggest any changes. 
 
 
