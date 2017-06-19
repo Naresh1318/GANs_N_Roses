@@ -3,7 +3,7 @@
 
 Uses a Deep Convolutional Generative Adversial Network to generate images of roses using tensorflow.
 
-The main of this repo is to provide users with a foundation to experiment on GANs with worrying about saving models, generated images and the Tensorboard
+The main of this repo is to provide users with a foundation to experiment on GANs without worrying about saving models, generated images and the Tensorboard
 results. All the functions are well documented and instructions to get started on the
 theory and the explaination is provided [here]().
 
