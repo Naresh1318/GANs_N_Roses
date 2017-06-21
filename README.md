@@ -1,4 +1,3 @@
-# **[Under Development]**
 # GANs N' ROSES
 
 Uses a Deep Convolutional Generative Adversial Network to generate images of roses using tensorflow.
@@ -17,9 +16,11 @@ theory and the explaination is provided [here]().
     
     pip3 install -r requirements.txt
     
-*Note:*
+***Note:***
 * *Install tensorflow using the following [link](https://www.tensorflow.org/install/).*
 * *It is recomended that you use the GPU during training.*
+* *The code works on tensorflow r0.12, change the parameter name from **targets**
+ to **labels** at lines 123, 124 and 125 in the main.py file for version > r0.12*
 
 ## Dataset
 The roses dataset was downloaded from google images using the Chrome ImageSpark 
@@ -28,10 +29,14 @@ plugin.
 The dataset that I have used can be downloaded from this [link](https://drive.google.com/open?id=0B068a_0Gq8kYSGZ3UmdveFczM0U).
 * Extract the images into Dataset/Roses.
 
+*Note:*
+* Images other than roses and those with different shapes can be copied into the Roses directory.
+
+
 ## Training the model
 
 ### mission_control.py
-This file contains the dataset location and the hyperparameters that is used by the
+This file contains the dataset location and the hyperparameters which are used by the
 model.
 
 *Note:*
@@ -40,7 +45,7 @@ has to be modified in order to change the image size at the output of the genera
 changes the size of the real images feed to the Discriminator.*
 
 ### Training
-Set the hyperparameters to the required values in the mission_control.py file
+Set the hyperparameters to the required values in the **mission_control.py** file
 and run the following:
 
     python3 main.py
