@@ -42,7 +42,7 @@ def load_dataset(path, data_set='birds', image_size=64):
                                                     (image_size, image_size), Image.ANTIALIAS))/127.5 - 1.)
                 sys.stdout.write("\r Loading : {}/{}"
                                  .format(c + 1, number_of_images))
-                print("\n")
+            print("\n")
         images = np.reshape(images, [-1, image_size, image_size, 3])
         return images.astype(np.float32)
 
@@ -71,7 +71,7 @@ def load_dataset(path, data_set='birds', image_size=64):
             images.append(np.array(ImageOps.fit(Image.open(path + i),
                                                 (image_size, image_size), Image.ANTIALIAS))/127.5 - 1.)
             sys.stdout.write("\r Loading : {}/{}".format(c + 1, number_of_images))
-            print("\n")
+        print("\n")
         images = np.reshape(images, [-1, image_size, image_size, 3])
         return images.astype(np.float32)
 
