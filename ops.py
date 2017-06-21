@@ -1,7 +1,7 @@
 import tensorflow as tf
 
 
-# standard convolution layer
+# Standard convolution layer
 def conv2d(x, inputFeatures, outputFeatures, name):
     with tf.variable_scope(name):
         w = tf.get_variable("w", [5, 5, inputFeatures, outputFeatures],
@@ -13,7 +13,6 @@ def conv2d(x, inputFeatures, outputFeatures, name):
 
 def conv_transpose(x, outputShape, name):
     with tf.variable_scope(name):
-        # h, w, out, in
         w = tf.get_variable("w", [5, 5, outputShape[-1], x.get_shape()[-1]],
                             initializer=tf.truncated_normal_initializer(stddev=0.02))
         b = tf.get_variable("b", [outputShape[-1]], initializer=tf.constant_initializer(0.0))
