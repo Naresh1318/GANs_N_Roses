@@ -23,7 +23,6 @@ def merge(images, size):
 
 
 def load_dataset(path, data_set='birds', image_size=64):
-    # TODO: Remove redundant code from this function.
     """
     Loads the images from the specified path
     :param path: string indicating the dataset path.
@@ -32,8 +31,8 @@ def load_dataset(path, data_set='birds', image_size=64):
     :return: numpy array, shape : [number of images, image_size, image_size, 3]
     """
     if data_set == 'birds':
-        image_dirs = os.listdir(path)[0]
-        # TODO: Only read the images in the directory and ignore all other files.
+        all_dirs = os.listdir(path)[0]
+        image_dirs = [i for i in all_dirs if i.endswith(".jpg") or i.endswith(".jpeg") or i.endswith(".png")]
         number_of_images = len(image_dirs)
         images = []
         print("{} images are being loaded...".format(data_set[:-1]))
@@ -48,7 +47,8 @@ def load_dataset(path, data_set='birds', image_size=64):
         return images.astype(np.float32)
 
     elif data_set == 'roses':
-        image_dirs = os.listdir(path)
+        all_dirs = os.listdir(path)
+        image_dirs = [i for i in all_dirs if i.endswith(".jpg") or i.endswith(".jpeg") or i.endswith(".png")]
         number_of_images = len(image_dirs)
         images = []
         print("{} images are being loaded...".format(data_set[:-1]))
@@ -62,7 +62,8 @@ def load_dataset(path, data_set='birds', image_size=64):
         return images.astype(np.float32)
 
     elif data_set == 'black_birds':
-        image_dirs = os.listdir(path)
+        all_dirs = os.listdir(path)
+        image_dirs = [i for i in all_dirs if i.endswith(".jpg") or i.endswith(".jpeg") or i.endswith(".png")]
         number_of_images = len(image_dirs)
         images = []
         print("{} images are being loaded...".format(data_set[:-1]))
