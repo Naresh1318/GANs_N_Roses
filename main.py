@@ -20,13 +20,13 @@ def discriminator(image, reuse=False):
         tf.get_variable_scope().reuse_variables()
 
     h0 = lrelu(conv2d(image, 3, df_dim, name='d_h0_conv'))
-    h1 = lrelu(batch_norm(conv2d(h0, 64, df_dim * 2, name='d_h1_conv'),
+    h1 = lrelu(batch_norm(conv2d(h0, df_dim, df_dim * 2, name='d_h1_conv'),
                           center=True, scale=True, is_training=True, scope='d_bn1'))
-    h2 = lrelu(batch_norm(conv2d(h1, 128, df_dim * 4, name='d_h2_conv'),
+    h2 = lrelu(batch_norm(conv2d(h1, df_dim * 2, df_dim * 4, name='d_h2_conv'),
                           center=True, scale=True, is_training=True, scope='d_bn2'))
-    h3 = lrelu(batch_norm(conv2d(h2, 256, df_dim * 8, name='d_h3_conv'),
+    h3 = lrelu(batch_norm(conv2d(h2, df_dim * 4, df_dim * 8, name='d_h3_conv'),
                           center=True, scale=True, is_training=True, scope='d_bn3'))
-    h4 = dense(tf.reshape(h3, [mc.BATCH_SIZE, -1]), 4 * 4 * 512, 1, scope='d_h3_lin')
+    h4 = dense(tf.reshape(h3, [-1, 4 * 4 * df_dim * 8]), 4 * 4 * df_dim * 8, 1, scope='d_h3_lin')
     return h4
 
 
@@ -37,7 +37,7 @@ def generator(z, z_dim):
     :param z_dim: The dimension of the input noise.
     :return: Fake images -> [BATCH_SIZE, IMAGE_SIZE, IMAGE_SIZE, 3]
     """
-    gf_dim = 64  # TODO: Implement different image size.
+    gf_dim = 64
     z2 = dense(z, z_dim, gf_dim * 8 * 4 * 4, scope='g_h0_lin')
     h0 = tf.nn.relu(batch_norm(tf.reshape(z2, [-1, 4, 4, gf_dim * 8]),
                                center=True, scale=True, is_training=True, scope='g_bn1'))
@@ -72,7 +72,21 @@ def form_results():
     return results_path, tensorboard_path, generated_images_path, saved_models_path
 
 
-def train(z_dim, batch_size, learning_rate, beta1, n_iter, image_size):
+def get_latest_trained_model_path():
+    """
+    Used to find the latest saved model's path.
+    :return: path of the latest model's Tensorboard, Generated_Images and Saved_Models.
+    """
+    latest_run_dir = os.listdir("./Results/roses")
+    latest_run_dir.sort()
+    latest_run_dir = latest_run_dir[-1]
+    saved_models_path = "./Results/roses/" + latest_run_dir + "/Saved_Models"
+    generated_images_path = "./Results/roses/" + latest_run_dir + "/Generated_Images"
+    tensorboard_path = "./Results/roses/" + latest_run_dir + "/Tensorboard"
+    return tensorboard_path, generated_images_path, saved_models_path
+
+
+def train(z_dim, batch_size, learning_rate, beta1, n_iter, image_size, load=False):
     """
     Function used to train a DCGAN
     :param z_dim: Dimension of the input noise which will be feed as the input to the generator.
@@ -81,9 +95,13 @@ def train(z_dim, batch_size, learning_rate, beta1, n_iter, image_size):
     :param beta1: The exponential decay rate for the 1st moment estimates.
     :param n_iter: The number of iterations to train the GAN on.
     :param image_size: Dimension of the images to be created.
+    :param load: True to load the latest saved model, False to train a new one.
     """
     # Create a folder for this run under the Results folder
-    results_path, tensorboard_path, generated_images_path, saved_models_path = form_results()
+    if not load:
+        results_path, tensorboard_path, generated_images_path, saved_models_path = form_results()
+    else:
+        tensorboard_path, generated_images_path, saved_models_path = get_latest_trained_model_path()
 
     # Size of the image to  be formed
     imageshape = [image_size, image_size, 3]
@@ -130,7 +148,7 @@ def train(z_dim, batch_size, learning_rate, beta1, n_iter, image_size):
     with tf.Session() as sess:
         tf.global_variables_initializer().run()
         writer = tf.summary.FileWriter(logdir=logdir, graph=sess.graph)
-        if mc.TRAIN:
+        if not load:
             for idx in range(n_iter):
                 batch_images = next_batch(real_img, batch_size=batch_size)
                 batch_z = np.random.uniform(-1, 1, [batch_size, z_dim]).astype(np.float32)
@@ -150,25 +168,36 @@ def train(z_dim, batch_size, learning_rate, beta1, n_iter, image_size):
                     g_loss = gloss.eval({zin: batch_z})
                     print("\n Discriminator loss: {0} \n Generator loss: {1} \n".format(d_loss, g_loss))
 
-                if idx % 200 == 0:
-                    # Save the generated images every 200 iterations
-                    sdata = sess.run([G], feed_dict={zin: display_z})
-                    print(np.shape(sdata))
-                    ims(generated_images_path + '/' + str(idx) + ".jpg", merge(sdata[0], [3, 4]))
+                if idx < 2000:
+                    # Display the initial training part
+                    if idx % 20 == 0:
+                        # Save the generated images every 20 iterations
+                        sdata = sess.run([G], feed_dict={zin: display_z})
+                        print(np.shape(sdata))
+                        ims(generated_images_path + '/' + str(idx) + ".jpg", merge(sdata[0], [3, 4]))
+                else:
+                    if idx % 200 == 0:
+                        # Save the generated images every 200 iterations
+                        sdata = sess.run([G], feed_dict={zin: display_z})
+                        print(np.shape(sdata))
+                        ims(generated_images_path + '/' + str(idx) + ".jpg", merge(sdata[0], [3, 4]))
 
                 if idx % 1000 == 0:
                     saver.save(sess, saved_models_path + "/train", global_step=idx)
         else:
-            # TODO: Get the latest saved model path and change the saved_models_path accordingly
+            """
+            Automatically loads the latest saved model
+            """
+            print("Loading saved model from {}".format(saved_models_path))
             saver.restore(sess, tf.train.latest_checkpoint(saved_models_path + "/"))
-            batch_z = np.random.uniform(-1, 1, [1, z_dim]).astype(np.float32)
-            batch_z = np.repeat(batch_z, batch_size, axis=0)
-            for i in range(z_dim):
-                edited = np.copy(batch_z)
-                edited[:, i] = (np.arange(0.0, batch_size) / (batch_size / 2)) - 1
-                sdata = sess.run([G], feed_dict={zin: edited})
-                ims("results/imagenet/" + str(i) + ".jpg", merge(sdata[0], [3, 4]))
+            print("Model loaded!!")
+
+            display_z = np.random.uniform(-1, 1, [batch_size, z_dim]).astype(np.float32)
+            sdata = sess.run([G], feed_dict={zin: display_z})
+            print("Output Shape {}".format(np.shape(sdata)))
+            ims(generated_images_path + '/' + "Trained_model_image_{}".format(datetime.datetime.now())
+                + ".jpg", merge(sdata[0], [3, 4]))
 
 
 train(z_dim=mc.Z_DIM, batch_size=mc.BATCH_SIZE, n_iter=mc.N_ITERATIONS,
-      learning_rate=mc.LEARNING_RATE, beta1=mc.BETA_1, image_size=mc.IMAGE_SIZE)
+      learning_rate=mc.LEARNING_RATE, beta1=mc.BETA_1, image_size=mc.IMAGE_SIZE, load=mc.LOAD)
