@@ -77,7 +77,7 @@ mission_control.py file.
 
 *GANs N' Roses Training*
 
-![Gif_1](https://raw.githubusercontent.com/Naresh1318/GANs_N_Roses/master/README/roses.gif)
+![Gif_1](https://raw.githubusercontent.com/Naresh1318/GANs_N_Roses/master/README/roses_v2.gif)
 
 ## Thank You
    If you find this repository helpful please share it and feel free to suggest any changes. 
