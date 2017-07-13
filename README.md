@@ -2,8 +2,7 @@
 
 Uses a Deep Convolutional Generative Adversial Network to generate images of roses using tensorflow.
 
-The main of this repo is to provide users with a foundation to experiment on GANs without worrying about saving models, generated images and the Tensorboard
-results. All the functions are well documented and instructions to get started on the
+The main obejctive of this repo is to provide users with a foundation to experiment on GANs without worrying about saving models, generated images and using Tensorboard. All the functions have been documented, instructions to get started on the
 theory and the explaination is provided [here](https://medium.com/@rnaresh.n/gans-n-roses-c6652d513260).
 
 ## Installing the dependencies
@@ -12,7 +11,7 @@ theory and the explaination is provided [here](https://medium.com/@rnaresh.n/gan
     pip install virtualenv
     virtualenv -p /usr/bin/python3 gnr
     
- Install the dependencies
+ Install dependencies
     
     pip3 install -r requirements.txt
     
